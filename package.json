@@ -14,7 +14,9 @@
   "directories": {
     "example": "example"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iamuzor/bunyan-discord.git"
@@ -34,6 +36,6 @@
   },
   "homepage": "https://github.com/iamuzor/bunyan-discord#readme",
   "engines": {
-    "node": ">= 6.17.0"
+    "node": ">= 8.17.0"
   }
 }
