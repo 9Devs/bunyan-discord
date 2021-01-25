@@ -5,7 +5,7 @@ const logger = bunyan.createLogger({
     name: 'TestApp',
     // level: 'error',
     stream: new DiscordStream({
-        webhookUrl: 'https://discord.com/api/webhooks/801559367777910865/k7NtSSRfowcK8dWkuBtouc0BbyQrr2ErhP0uFz2Eavb2BI-j6GEWdb8Ox0xsbTtyYzRm'
+        webhookUrl: 'https://discord.local/1234567890'
     })
 })
 

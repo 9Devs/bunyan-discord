@@ -1,4 +1,4 @@
-const https = require('https')
+const { fetch } = require('cross-fetch')
 
 const DEFAULT_DISCORD_EMBED_AVATAR_URL = 'https://i.imgur.com/WQOL3t3.png'
 const DEFAULT_DISCORD_EMBED_AUTHOR_NAME = 'Alert'
@@ -72,40 +72,35 @@ const generateRequestBody = (args) => {
 /**
  * Sends HTTP request to Discord webhook
  * @param {String} url - The discord webhook URL
- * @param {Object} requestBody
- * @param {String?} requestBody.username
- * @param {String?} requestBody.content
- * @param {String?} requestBody.avatar_url
- * @param {Array?} requestBody.embeds
+ * @param {Object} body
+ * @param {String?} body.username
+ * @param {String?} body.content
+ * @param {String?} body.avatar_url
+ * @param {Array?} body.embeds
  * @returns {Promise}
  */
-const sendHttpRequest = (url, requestBody) => {
-    console.log({ url, requestBody })
-
-    const postData = JSON.stringify(requestBody)
-    const options = {
+const sendHttpRequest = async (url, body) => {
+    const fetchResponse = await fetch(url, {
+        body: JSON.stringify(body),
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-        },
+            'Content-Type': 'application/json'
+        }
+    })
+
+    if (fetchResponse.status >= 400) {
+        const error = new Error('Request to discord webhook failed')
+        error.code = fetchResponse.status
+
+        throw error
     }
 
-    return new Promise((resolve, reject) => {
-        const request = https.request(url, options, (res) => {
-            res.setEncoding('utf8')
-        })
-
-        request.on('error', (e) => reject(e))
-
-        const response = request.write(postData)
-
-        request.end()
-
-        return (response) ? resolve(true) : reject(false)
-    })
+    return fetchResponse
 }
 
-
+/**
+ * Pushes log streams to a Discord webhook
+ */
 class DiscordStream {
     /**
      * @param {Object} args
@@ -117,12 +112,10 @@ class DiscordStream {
 
     /**
      * @param chunk
-     * @param callback
-     * @returns {boolean}
+     * @returns {Promise}
      */
-    write(chunk, callback = null) {
+    write(chunk) {
         const chunkJson = JSON.parse(chunk.toString())
-
         const { msg: message, time, stage = 'N/A', context, err } = chunkJson
         const url = (context && context.url) ? context.url : 'N/A'
         const details = (err && err.stack) ? err.stack : 'N/A'
@@ -135,15 +128,7 @@ class DiscordStream {
             url,
         })
 
-        sendHttpRequest(this.args.webhookUrl, requestBody)
-            .then(res => {
-                if (callback) callback(null, res)
-            })
-            .catch(e => {
-                if (callback) callback(e, null)
-            })
-
-        return true
+        return sendHttpRequest(this.args.webhookUrl, requestBody)
     }
 }
 
