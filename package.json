@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "UZOR <admin@ninedevs.co.uk>",
+  "author": "UZOR",
   "license": "ISC",
   "dependencies": {
     "node-fetch": "^2.6.1"
