@@ -1,0 +1,39 @@
+{
+  "name": "bunyan-discord",
+  "description": "A stream for bunyan logger that sends logs to a Discord channel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "UZOR <admin@ninedevs.co.uk>",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamuzor/bunyan-discord.git"
+  },
+  "keywords": [
+    "bunyan",
+    "bunyan-discord",
+    "stream",
+    "discord",
+    "discord webhook",
+    "node",
+    "log",
+    "logger"
+  ],
+  "bugs": {
+    "url": "https://github.com/iamuzor/bunyan-discord/issues"
+  },
+  "homepage": "https://github.com/iamuzor/bunyan-discord#readme",
+  "engines": {
+    "node": ">= 6.17.0"
+  }
+}

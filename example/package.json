@@ -1,0 +1,26 @@
+{
+  "name": "bunyan-discord-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/iamuzor/bunyan-discord.git"
+  },
+  "keywords": [
+    "bunyan",
+    "demo"
+  ],
+  "author": "UZOR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamuzor/bunyan-discord/issues"
+  },
+  "homepage": "https://github.com/iamuzor/bunyan-discord#readme",
+  "dependencies": {
+    "bunyan": "^1.8.15"
+  }
+}
