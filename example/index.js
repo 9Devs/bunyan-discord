@@ -2,10 +2,9 @@ const DiscordStream = require('../index')
 const bunyan = require('bunyan')
 
 const logger = bunyan.createLogger({
-    name: 'TestApp',
-    level: 'error',
+    name: 'ExampleApp',
     stream: new DiscordStream({
-        webhookUrl: 'https://discord.local/1234567890'
+        webhookUrl: 'https://discord.com/api/webhooks/0123456789'
     })
 })
 

@@ -1,87 +1,25 @@
 const { fetch } = require('cross-fetch')
 
-const DEFAULT_DISCORD_EMBED_AVATAR_URL = 'https://i.imgur.com/WQOL3t3.png'
-const DEFAULT_DISCORD_EMBED_AUTHOR_NAME = 'Alert'
-const DEFAULT_DISCORD_EMBED_COLOR = 16723200
+const DEFAULT_DISCORD_EMBED_AVATAR_URL = ''
+const DEFAULT_DISCORD_EMBED_COLOR = 9807270
 
-/**
- * Generates the request body for the HTTP request to Discord webhook
- *
- * @param {Object} args
- * @param {String} args.url
- * @param {String} args.stage
- * @param {String} args.details
- * @param {String} args.time
- * @param {String} args.message
- * @returns {{avatar_url: string, embeds: [{color: number, author: {icon_url: string, name: string}, fields: []}]}}
- */
-const generateRequestBody = (args) => {
-    const { url, stage, details, time, message } = args
-    const fields = []
+const ERROR_DISCORD_EMBED_AVATAR_URL = 'https://i.imgur.com/60Llv9W.png'
+const ERROR_DISCORD_EMBED_COLOR = 15158332
 
-    if (message) {
-        fields.push({
-            name: 'Message:',
-            value: message,
-        })
-    }
-
-    if (time) {
-        fields.push({
-            name: 'Time:',
-            value: time,
-        })
-    }
-
-    if (url) {
-        fields.push({
-            name: 'URL:',
-            value: url,
-        })
-    }
-
-    if (stage) {
-        fields.push({
-            name: 'Stage:',
-            value: stage,
-        })
-    }
-
-    if (details) {
-        fields.push({
-            name: 'Details:',
-            value: details,
-        })
-    }
-
-    return {
-        avatar_url: DEFAULT_DISCORD_EMBED_AVATAR_URL,
-        embeds: [
-            {
-                author: {
-                    name: DEFAULT_DISCORD_EMBED_AUTHOR_NAME,
-                    icon_url: DEFAULT_DISCORD_EMBED_AVATAR_URL,
-                },
-                color: DEFAULT_DISCORD_EMBED_COLOR,
-                fields,
-            },
-        ],
-    }
-}
 
 /**
  * Sends HTTP request to Discord webhook
- * @param {String} url - The discord webhook URL
- * @param {Object} body
- * @param {String?} body.username
- * @param {String?} body.content
- * @param {String?} body.avatar_url
- * @param {Array?} body.embeds
+ *
+ * @param {Object} args
+ * @param {String} args.webhookUrl
+ * @param {Object} args.body
+ * @param {String} args.body.avatar
+ * @param {{author,color,fields}[]} args.body.embeds
  * @returns {Promise}
  */
-const sendHttpRequest = async (url, body) => {
-    const fetchResponse = await fetch(url, {
-        body: JSON.stringify(body),
+const sendHttpRequest = async (args) => {
+    const fetchResponse = await fetch(args.webhookUrl, {
+        body: JSON.stringify(args.body),
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -115,20 +53,48 @@ class DiscordStream {
      * @returns {Promise}
      */
     write(chunk) {
-        const chunkJson = JSON.parse(chunk.toString())
-        const { msg: message, time, stage = 'N/A', context, err } = chunkJson
-        const url = (context && context.url) ? context.url : 'N/A'
-        const details = (err && err.stack) ? err.stack : 'N/A'
+        let chunkJson = JSON.parse(chunk.toString())
+        let { name, msg, err, time } = chunkJson
+        let author = { icon_url: DEFAULT_DISCORD_EMBED_AVATAR_URL }
+        let avatar_url = DEFAULT_DISCORD_EMBED_AVATAR_URL
+        let color = DEFAULT_DISCORD_EMBED_COLOR
+        let fields = [
+            {
+                name: 'Name:',
+                value: name
+            },
+            {
+                name: 'Message:',
+                value: msg
+            },
+            {
+                name: 'Time:',
+                value: time
+            }
+        ]
 
-        const requestBody = generateRequestBody({
-            message,
-            time,
-            details,
-            stage,
-            url,
+        if (err) {
+            fields.push({
+                name: 'Error details:',
+                value: JSON.stringify(err)
+            })
+
+            author.icon_url = ERROR_DISCORD_EMBED_AVATAR_URL
+            avatar_url = ERROR_DISCORD_EMBED_AVATAR_URL
+            color = ERROR_DISCORD_EMBED_COLOR
+        }
+
+        return sendHttpRequest({
+            webhookUrl: this.args.webhookUrl,
+            body: {
+                avatar_url,
+                embeds: [{
+                    author,
+                    color,
+                    fields
+                }]
+            }
         })
-
-        return sendHttpRequest(this.args.webhookUrl, requestBody)
     }
 }
 
