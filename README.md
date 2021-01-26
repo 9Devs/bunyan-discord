@@ -1,11 +1,19 @@
 # bunyan-discord
 
-This library will send logs to a Discord channel through a webhook. It assumes you already have a webhook setup.
+This library will send logs to a Discord channel through a webhook.
+
+## Getting Started
+
+Install the package;
+
+```shell
+npm install 9Devs/bunyan-discord
+```
 
 ## Usage
 
 ```js
-const DiscordStream = require('../index')
+const DiscordStream = require('9Devs/bunyan-discord')
 const bunyan = require('bunyan')
 
 const logger = bunyan.createLogger({
