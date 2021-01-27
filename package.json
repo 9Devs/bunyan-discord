@@ -1,7 +1,7 @@
 {
   "name": "@ninedevs/bunyan-discord",
   "description": "A stream for bunyan logger that sends logs to a Discord channel",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "types": "lib",
   "main": "lib/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamuzor/bunyan-discord.git"
+    "url": "git+https://github.com/9Devs/bunyan-discord.git"
   },
   "keywords": [
     "bunyan",
@@ -39,9 +39,9 @@
     "logger"
   ],
   "bugs": {
-    "url": "https://github.com/iamuzor/bunyan-discord/issues"
+    "url": "https://github.com/9Devs/bunyan-discord/issues"
   },
-  "homepage": "https://github.com/iamuzor/bunyan-discord#readme",
+  "homepage": "https://github.com/9Devs/bunyan-discord#readme",
   "engines": {
     "node": ">= 8.17.0"
   }
