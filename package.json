@@ -1,7 +1,7 @@
 {
   "name": "@ninedevs/bunyan-discord",
   "description": "A stream for bunyan logger that sends logs to a Discord channel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "types": "lib",
   "main": "lib/index.js",
   "scripts": {
