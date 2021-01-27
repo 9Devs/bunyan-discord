@@ -7,13 +7,13 @@ This library will send logs to a Discord channel through a webhook.
 Install the package;
 
 ```shell
-npm install 9Devs/bunyan-discord
+npm i @ninedevs/bunyan-discord
 ```
 
 ## Usage
 
 ```js
-const DiscordStream = require('9Devs/bunyan-discord')
+const { DiscordStream } = require('@ninedevs/bunyan-discord')
 const bunyan = require('bunyan')
 
 const logger = bunyan.createLogger({
