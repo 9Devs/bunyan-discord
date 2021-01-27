@@ -1,6 +1,6 @@
-const crossFetch = require('cross-fetch')
-const DiscordStream = require('../index')
-const bunyan = require('bunyan')
+import * as crossFetch from 'cross-fetch'
+import * as bunyan from 'bunyan'
+import { DiscordStream } from '../src'
 
 jest.mock('cross-fetch')
 
@@ -12,19 +12,19 @@ describe('index', () => {
     })
 
     test('Should send log stream to Discord when error is logged', async () => {
-        fetchMockFn.mockReturnValueOnce(Promise.resolve({
-            status: 200
-        }))
+        fetchMockFn.mockResolvedValueOnce({
+            status: 200,
+        } as any)
 
         const logger = bunyan.createLogger({
             name: 'TestApp',
             streams: [
                 {
                     stream: new DiscordStream({
-                        webhookUrl: 'https://discord.local'
-                    })
-                }
-            ]
+                        webhookUrl: 'https://discord.local',
+                    }),
+                },
+            ],
         })
 
         logger.error(new Error('Something failed'))
