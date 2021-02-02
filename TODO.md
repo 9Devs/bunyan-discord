@@ -1,0 +1,1 @@
+* Ability to specify webhook per error type
